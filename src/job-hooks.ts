@@ -2,8 +2,8 @@
 // All handlers are module-level consts so jobHooks.off() can de-register them
 // by reference when the plugin is removed.
 
-import type { IJob, IJobComment } from "@ursamu/ursamu/jobs";
-import { jobHooks } from "@ursamu/ursamu/jobs";
+import type { IJob, IJobComment } from "@ursamu/jobs-plugin";
+import { jobHooks } from "@ursamu/jobs-plugin";
 import { dbojs } from "@ursamu/ursamu";
 import { getDiscordConfig, getWebhookUrl } from "./config.ts";
 import { postWebhook } from "./webhook.ts";
