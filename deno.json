@@ -1,6 +1,6 @@
 {
   "name": "@ursamu/discord-plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Webhook-based Discord integration for UrsaMU — mirrors job events, channel talk, player presence, and chargen activity.",
   "exports": "./mod.ts",
   "publish": {
