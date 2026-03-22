@@ -9,7 +9,7 @@
   },
   "imports": {
     "@ursamu/ursamu": "jsr:@ursamu/ursamu@^1.9",
-    "@ursamu/jobs-plugin": "jsr:@ursamu/jobs-plugin@^1.1",
+    "@ursamu/jobs-plugin": "https://raw.githubusercontent.com/UrsaMU/jobs-plugin/v1.1.0/mod.ts",
     "@ursamu/ursamu/chargen": "jsr:@ursamu/ursamu@^1.9/chargen",
     "@ursamu/ursamu/channels": "jsr:@ursamu/ursamu@^1.9/channels",
     "@std/assert": "jsr:@std/assert@^0.224.0"
