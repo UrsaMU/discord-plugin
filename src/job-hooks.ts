@@ -1,6 +1,9 @@
 // Named job-event handlers for the discord plugin.
 // All handlers are module-level consts so jobHooks.off() can de-register them
 // by reference when the plugin is removed.
+//
+// M1 fix: (field ?? "").slice() guards against missing fields on bridge payloads.
+// L3 fix: clean(job.title) strips MUSH codes from Discord embed titles.
 
 import type { IJob, IJobComment } from "@ursamu/jobs-plugin";
 import { jobHooks } from "@ursamu/jobs-plugin";
@@ -30,8 +33,8 @@ const onJobCreated = async (job: IJob): Promise<void> => {
     avatar_url: avatar,
     embeds: [{
       color:       COLORS.green,
-      title:       `New Job #${job.number} — ${job.title}`,
-      description: job.description.slice(0, 1024),
+      title:       `New Job #${job.number} — ${clean(job.title)}`,
+      description: (job.description ?? "").replace(/%c[a-zA-Z0-9]/gi, "").replace(/%[nrtbR]/g, "").slice(0, 1024),
       footer:      { text: `Bucket: ${bucketLabel(job)}${priorityNote}` },
     }],
   });
@@ -49,7 +52,7 @@ const onJobAssigned = async (job: IJob): Promise<void> => {
     embeds: [{
       color:       COLORS.blue,
       title:       `Job #${job.number} Assigned`,
-      description: `**${job.title}** assigned to **${clean(assignedName ?? "")}**`,
+      description: `**${clean(job.title)}** assigned to **${clean(assignedName ?? "")}**`,
     }],
   });
 };
@@ -64,8 +67,8 @@ const onJobCommented = async (job: IJob, comment: IJobComment): Promise<void> =>
     avatar_url: avatar,
     embeds: [{
       color:       COLORS.blurple,
-      title:       `Comment on Job #${job.number} — ${job.title}`,
-      description: comment.text.slice(0, 1024),
+      title:       `Comment on Job #${job.number} — ${clean(job.title)}`,
+      description: (comment.text ?? "").replace(/%c[a-zA-Z0-9]/gi, "").replace(/%[nrtbR]/g, "").slice(0, 1024),
     }],
   });
 };
@@ -78,7 +81,7 @@ const onJobStatusChanged = async (job: IJob, oldStatus: string): Promise<void> =
     embeds: [{
       color:       COLORS.orange,
       title:       `Job #${job.number} Status Changed`,
-      description: `**${job.title}**\n${oldStatus} → **${job.status}**`,
+      description: `**${clean(job.title)}**\n${oldStatus} → **${job.status}**`,
       footer:      { text: `Bucket: ${bucketLabel(job)}` },
     }],
   });
@@ -92,7 +95,7 @@ const onJobPriorityChanged = async (job: IJob, oldPriority: string): Promise<voi
     embeds: [{
       color:       COLORS.yellow,
       title:       `Job #${job.number} Priority Changed`,
-      description: `**${job.title}**\n${oldPriority} → **${job.priority ?? "normal"}**`,
+      description: `**${clean(job.title)}**\n${oldPriority} → **${job.priority ?? "normal"}**`,
     }],
   });
 };
@@ -105,7 +108,7 @@ const onJobResolved = async (job: IJob): Promise<void> => {
     embeds: [{
       color:       COLORS.teal,
       title:       `Job #${job.number} Resolved`,
-      description: `**${job.title}**`,
+      description: `**${clean(job.title)}**`,
       footer:      { text: `Bucket: ${bucketLabel(job)}` },
     }],
   });
@@ -119,7 +122,7 @@ const onJobReopened = async (job: IJob): Promise<void> => {
     embeds: [{
       color:       COLORS.orange,
       title:       `Job #${job.number} Reopened`,
-      description: `**${job.title}**`,
+      description: `**${clean(job.title)}**`,
     }],
   });
 };
@@ -132,7 +135,7 @@ const onJobClosed = async (job: IJob): Promise<void> => {
     embeds: [{
       color:       COLORS.gray,
       title:       `Job #${job.number} Closed`,
-      description: `**${job.title}**`,
+      description: `**${clean(job.title)}**`,
       footer:      { text: `Bucket: ${bucketLabel(job)}` },
     }],
   });
@@ -146,7 +149,7 @@ const onJobDeleted = async (job: IJob): Promise<void> => {
     embeds: [{
       color:       COLORS.red,
       title:       `Job #${job.number} Deleted`,
-      description: `**${job.title}**`,
+      description: `**${clean(job.title)}**`,
     }],
   });
 };
