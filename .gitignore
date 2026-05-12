@@ -1,0 +1,5 @@
+config/
+data/
+.env
+*.log
+deno.lock
