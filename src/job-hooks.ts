@@ -5,8 +5,8 @@
 // M1 fix: (field ?? "").slice() guards against missing fields on bridge payloads.
 // L3 fix: clean(job.title) strips MUSH codes from Discord embed titles.
 
-import type { IJob, IJobComment } from "@ursamu/jobs-plugin";
-import { jobHooks } from "@ursamu/jobs-plugin";
+import type { IJob, IJobComment } from "@ursamu/jobs-plugin/types";
+import { jobHooks } from "@ursamu/jobs-plugin/hooks";
 import { dbojs } from "@ursamu/ursamu";
 import { getDiscordConfig, getWebhookUrl } from "./config.ts";
 import { postWebhook } from "./webhook.ts";

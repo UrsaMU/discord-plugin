@@ -18,9 +18,7 @@ async function isStaff(userId: string | null): Promise<boolean> {
   const player = await dbojs.queryOne({ id: userId });
   if (!player) return false;
   // Use Set.has() — string .includes() allows substring bypass ("notadmin" would pass)
-  const flags = player.flags instanceof Set
-    ? player.flags
-    : new Set(String(player.flags ?? "").split(/\s+/).filter(Boolean));
+  const flags = new Set(String(player.flags ?? "").split(/\s+/).filter(Boolean));
   return flags.has("admin") || flags.has("wizard") || flags.has("superuser");
 }
 

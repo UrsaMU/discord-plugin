@@ -7,7 +7,7 @@
  *   - clean() strips MUSH codes and clamps to 80 chars
  *   - presence.ts / job-hooks.ts subscribe/unsubscribe (smoke)
  */
-import { assertEquals, assertStringIncludes } from "@std/assert";
+import { assertEquals } from "@std/assert";
 import { clean } from "../src/helpers.ts";
 
 // ─── clean() ──────────────────────────────────────────────────────────────────
@@ -18,7 +18,6 @@ Deno.test("discord helpers: clean() strips MUSH color codes", () => {
 });
 
 Deno.test("discord helpers: clean() strips ANSI escapes", () => {
-  // deno-lint-ignore no-control-regex
   assertEquals(clean("\x1b[1mBold\x1b[0m"), "Bold");
 });
 
